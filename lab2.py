@@ -120,13 +120,13 @@ draw_plot(take(10, sorted_words.items()), 'Words', 'Occurrences')
 draw_plot(count_symbols(get_all_words(link)), 'Word length', 'Amount words')
 draw_plot(count_chars(get_text(link)), 'Letters', 'Amount')
 #
-# for i in range(1, 3):
-#     inner_links = get_all_links(links[i])
-#     for j in range(1, 3):
-#         draw_plot(count_chars(get_text(inner_links[j])), 'Letters', 'Amount')
-#         k_links = get_all_links(inner_links[j])
-#         for k in range(1, 3):
-#              draw_plot(count_chars(get_text(k_links[k])), 'Letters', 'Amount')
+for i in range(1, 3):
+    inner_links = get_all_links(links[i])
+    for j in range(1, 3):
+        draw_plot(count_chars(get_text(inner_links[j])), 'Letters', 'Amount')
+        k_links = get_all_links(inner_links[j])
+        for k in range(1, 3):
+             draw_plot(count_chars(get_text(k_links[k])), 'Letters', 'Amount')
 
 
 
