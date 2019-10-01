@@ -13,12 +13,27 @@ def get_all_links(link_from):
     req = request('GET', link_from)
     soup = BeautifulSoup(req.text, 'html.parser')
     href = []
+    href2 = []
     links = soup.find_all('a', href=True)
     print('Got {} links.'.format(len(links)))
     for a in links:
         href.append(a['href'])
+        for q in href:
+            if q == 'javascript:void(0)':
+                href.remove(q)
+            elif q[0:2] == '//':
+                href.remove(q)
+                q = 'https:' + q
+                href2.append(q)
+            elif q[0:1] == '/':
+                href.remove(q)
+                q = 'https://youtube.com' + q
+                href2.append(q)
+            else:
+                href2.append(q)
+            href.clear()
+            href = href2.copy()
     return list(filter(lambda a: a != '#', href))
-
 
 def get_text(link_from):
     req = request('GET', link_from)
@@ -90,7 +105,7 @@ def draw_plot(values, lbx='xplot', lby='yplot'):
 try:
     link = sys.argv[1]
 except:
-    link = 'http://yandex.by'
+    link = 'http://google.com/'
 
 statistics = {}
 counter = 0
@@ -123,10 +138,7 @@ draw_plot(count_chars(get_text(link)), 'Letters', 'Amount')
 for i in range(1, 3):
     inner_links = get_all_links(links[i])
     for j in range(1, 3):
-        draw_plot(count_chars(get_text(inner_links[j])), 'Letters', 'Amount')
+        draw_plot(count_chars(get_text(inner_links[j])), 'Letters inner', 'inner Amount')
         k_links = get_all_links(inner_links[j])
         for k in range(1, 3):
-             draw_plot(count_chars(get_text(k_links[k])), 'Letters', 'Amount')
-
-
-
+             draw_plot(count_chars(get_text(k_links[k])), 'Letters k', 'k Amount')
